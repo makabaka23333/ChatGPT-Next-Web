@@ -1042,6 +1042,22 @@ export function Settings() {
         ></input>
       </ListItem>
       <ListItem
+        title={Locale.Settings.Access.Tencent.BotAppKey.Title}
+        subTitle={Locale.Settings.Access.Tencent.BotAppKey.SubTitle}
+      >
+        <PasswordInput
+          aria-label={Locale.Settings.Access.Tencent.BotAppKey.Title}
+          value={accessStore.tencentBotAppKey}
+          type="text"
+          placeholder={Locale.Settings.Access.Tencent.BotAppKey.Placeholder}
+          onChange={(e) => {
+            accessStore.update(
+              (access) => (access.tencentBotAppKey = e.currentTarget.value),
+            );
+          }}
+        />
+      </ListItem>
+      <ListItem
         title={Locale.Settings.Access.Tencent.ApiKey.Title}
         subTitle={Locale.Settings.Access.Tencent.ApiKey.SubTitle}
       >
@@ -1510,38 +1526,42 @@ export function Settings() {
             </Popover>
           </ListItem>
 
-          <ListItem
-            title={Locale.Settings.Update.Version(currentVersion ?? "unknown")}
-            subTitle={
-              checkingUpdate
-                ? Locale.Settings.Update.IsChecking
-                : hasNewVersion
-                ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")
-                : Locale.Settings.Update.IsLatest
-            }
-          >
-            {checkingUpdate ? (
-              <LoadingIcon />
-            ) : hasNewVersion ? (
-              clientConfig?.isApp ? (
+          {false && (
+            <ListItem
+              title={Locale.Settings.Update.Version(
+                currentVersion ?? "unknown",
+              )}
+              subTitle={
+                checkingUpdate
+                  ? Locale.Settings.Update.IsChecking
+                  : hasNewVersion
+                  ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")
+                  : Locale.Settings.Update.IsLatest
+              }
+            >
+              {checkingUpdate ? (
+                <LoadingIcon />
+              ) : hasNewVersion ? (
+                clientConfig?.isApp ? (
+                  <IconButton
+                    icon={<ResetIcon></ResetIcon>}
+                    text={Locale.Settings.Update.GoToUpdate}
+                    onClick={() => clientUpdate()}
+                  />
+                ) : (
+                  <Link href={updateUrl} target="_blank" className="link">
+                    {Locale.Settings.Update.GoToUpdate}
+                  </Link>
+                )
+              ) : (
                 <IconButton
                   icon={<ResetIcon></ResetIcon>}
-                  text={Locale.Settings.Update.GoToUpdate}
-                  onClick={() => clientUpdate()}
+                  text={Locale.Settings.Update.CheckUpdate}
+                  onClick={() => checkUpdate(true)}
                 />
-              ) : (
-                <Link href={updateUrl} target="_blank" className="link">
-                  {Locale.Settings.Update.GoToUpdate}
-                </Link>
-              )
-            ) : (
-              <IconButton
-                icon={<ResetIcon></ResetIcon>}
-                text={Locale.Settings.Update.CheckUpdate}
-                onClick={() => checkUpdate(true)}
-              />
-            )}
-          </ListItem>
+              )}
+            </ListItem>
+          )}
 
           <ListItem title={Locale.Settings.SendKey}>
             <Select
@@ -1701,81 +1721,43 @@ export function Settings() {
           </ListItem>
         </List>
 
-        <SyncItems />
+        {false && <SyncItems />}
 
-        <List>
-          <ListItem
-            title={Locale.Settings.Mask.Splash.Title}
-            subTitle={Locale.Settings.Mask.Splash.SubTitle}
-          >
-            <input
-              aria-label={Locale.Settings.Mask.Splash.Title}
-              type="checkbox"
-              checked={!config.dontShowMaskSplashScreen}
-              onChange={(e) =>
-                updateConfig(
-                  (config) =>
-                    (config.dontShowMaskSplashScreen =
-                      !e.currentTarget.checked),
-                )
-              }
-            ></input>
-          </ListItem>
+        {false && (
+          <List>
+            <ListItem
+              title={Locale.Settings.Prompt.Disable.Title}
+              subTitle={Locale.Settings.Prompt.Disable.SubTitle}
+            >
+              <input
+                type="checkbox"
+                checked={config.disablePromptHint}
+                onChange={(e) =>
+                  updateConfig(
+                    (config) =>
+                      (config.disablePromptHint = e.currentTarget.checked),
+                  )
+                }
+              ></input>
+            </ListItem>
 
-          <ListItem
-            title={Locale.Settings.Mask.Builtin.Title}
-            subTitle={Locale.Settings.Mask.Builtin.SubTitle}
-          >
-            <input
-              aria-label={Locale.Settings.Mask.Builtin.Title}
-              type="checkbox"
-              checked={config.hideBuiltinMasks}
-              onChange={(e) =>
-                updateConfig(
-                  (config) =>
-                    (config.hideBuiltinMasks = e.currentTarget.checked),
-                )
-              }
-            ></input>
-          </ListItem>
-        </List>
-
-        <List>
-          <ListItem
-            title={Locale.Settings.Prompt.Disable.Title}
-            subTitle={Locale.Settings.Prompt.Disable.SubTitle}
-          >
-            <input
-              aria-label={Locale.Settings.Prompt.Disable.Title}
-              type="checkbox"
-              checked={config.disablePromptHint}
-              onChange={(e) =>
-                updateConfig(
-                  (config) =>
-                    (config.disablePromptHint = e.currentTarget.checked),
-                )
-              }
-            ></input>
-          </ListItem>
-
-          <ListItem
-            title={Locale.Settings.Prompt.List}
-            subTitle={Locale.Settings.Prompt.ListCount(
-              builtinCount,
-              customCount,
-            )}
-          >
-            <IconButton
-              aria={Locale.Settings.Prompt.List + Locale.Settings.Prompt.Edit}
-              icon={<EditIcon />}
-              text={Locale.Settings.Prompt.Edit}
-              onClick={() => setShowPromptModal(true)}
-            />
-          </ListItem>
-        </List>
+            <ListItem
+              title={Locale.Settings.Prompt.List}
+              subTitle={Locale.Settings.Prompt.ListCount(
+                builtinCount,
+                customCount,
+              )}
+            >
+              <IconButton
+                icon={<EditIcon />}
+                text={Locale.Settings.Prompt.Edit}
+                onClick={() => setShowPromptModal(true)}
+              />
+            </ListItem>
+          </List>
+        )}
 
         <List id={SlotID.CustomModel}>
-          {saasStartComponent}
           {accessCodeComponent}
 
           {!accessStore.hideUserApiKey && (
@@ -1884,21 +1866,20 @@ export function Settings() {
           />
         </List>
 
-        {shouldShowPromptModal && (
-          <UserPromptModal onClose={() => setShowPromptModal(false)} />
+        {false && (
+          <List>
+            <RealtimeConfigList
+              realtimeConfig={config.realtimeConfig}
+              updateConfig={(updater) => {
+                const realtimeConfig = { ...config.realtimeConfig };
+                updater(realtimeConfig);
+                config.update(
+                  (config) => (config.realtimeConfig = realtimeConfig),
+                );
+              }}
+            />
+          </List>
         )}
-        <List>
-          <RealtimeConfigList
-            realtimeConfig={config.realtimeConfig}
-            updateConfig={(updater) => {
-              const realtimeConfig = { ...config.realtimeConfig };
-              updater(realtimeConfig);
-              config.update(
-                (config) => (config.realtimeConfig = realtimeConfig),
-              );
-            }}
-          />
-        </List>
         <List>
           <TTSConfigList
             ttsConfig={config.ttsConfig}

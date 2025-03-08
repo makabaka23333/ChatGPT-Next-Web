@@ -425,6 +425,11 @@ const cn = {
           SubTitle: "使用自定义腾讯云Secret Key",
           Placeholder: "Tencent Secret Key",
         },
+        BotAppKey: {
+          Title: "Bot App Key",
+          SubTitle: "使用自定义腾讯云Bot App Key",
+          Placeholder: "Tencent Bot App Key",
+        },
         Endpoint: {
           Title: "接口地址",
           SubTitle: "不支持自定义前往.env配置",

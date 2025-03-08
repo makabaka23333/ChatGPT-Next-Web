@@ -48,7 +48,7 @@ export const DEFAULT_CONFIG = {
   theme: Theme.Auto as Theme,
   tightBorder: !!config?.isApp,
   sendPreviewBubble: true,
-  enableAutoGenerateTitle: true,
+  enableAutoGenerateTitle: false,
   sidebarWidth: DEFAULT_SIDEBAR_WIDTH,
 
   enableArtifacts: true, // show artifacts config
@@ -57,15 +57,15 @@ export const DEFAULT_CONFIG = {
 
   disablePromptHint: false,
 
-  dontShowMaskSplashScreen: false, // dont show splash screen when create chat
-  hideBuiltinMasks: false, // dont add builtin masks
+  dontShowMaskSplashScreen: true, // dont show splash screen when create chat
+  hideBuiltinMasks: true, // dont add builtin masks
 
   customModels: "",
   models: DEFAULT_MODELS as any as LLMModel[],
 
   modelConfig: {
-    model: "gpt-4o-mini" as ModelType,
-    providerName: "OpenAI" as ServiceProvider,
+    model: "tencent-bot" as ModelType,
+    providerName: "Tencent" as ServiceProvider,
     temperature: 0.5,
     top_p: 1,
     max_tokens: 4000,
@@ -221,7 +221,7 @@ export const useAppConfig = createPersistStore(
         state.modelConfig.frequency_penalty = 0;
         state.modelConfig.top_p = 1;
         state.modelConfig.template = DEFAULT_INPUT_TEMPLATE;
-        state.dontShowMaskSplashScreen = false;
+        state.dontShowMaskSplashScreen = true;
         state.hideBuiltinMasks = false;
       }
 
@@ -234,7 +234,7 @@ export const useAppConfig = createPersistStore(
       }
 
       if (version < 3.7) {
-        state.enableAutoGenerateTitle = true;
+        state.enableAutoGenerateTitle = false;
       }
 
       if (version < 3.8) {

@@ -24,6 +24,7 @@ import { DeepSeekApi } from "./platforms/deepseek";
 import { XAIApi } from "./platforms/xai";
 import { ChatGLMApi } from "./platforms/glm";
 import { SiliconflowApi } from "./platforms/siliconflow";
+import { TencentClient } from "./tencent";
 
 export const ROLES = ["system", "user", "assistant"] as const;
 export type MessageRole = (typeof ROLES)[number];
@@ -172,6 +173,9 @@ export class ClientApi {
         break;
       case ModelProvider.SiliconFlow:
         this.llm = new SiliconflowApi();
+        break;
+      case ModelProvider.TENCENT:
+        this.llm = new TencentClient();
         break;
       default:
         this.llm = new ChatGPTApi();
@@ -369,7 +373,7 @@ export function getClientApi(provider: ServiceProvider): ClientApi {
     case ServiceProvider.Alibaba:
       return new ClientApi(ModelProvider.Qwen);
     case ServiceProvider.Tencent:
-      return new ClientApi(ModelProvider.Hunyuan);
+      return new ClientApi(ModelProvider.TENCENT);
     case ServiceProvider.Moonshot:
       return new ClientApi(ModelProvider.Moonshot);
     case ServiceProvider.Iflytek:

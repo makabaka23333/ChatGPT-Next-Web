@@ -409,6 +409,11 @@ const en: LocaleType = {
           SubTitle: "Use a custom Tencent Secret Key",
           Placeholder: "Tencent Secret Key",
         },
+        BotAppKey: {
+          Title: "Bot App Key",
+          SubTitle: "Use a custom Tencent Bot App Key",
+          Placeholder: "Tencent Bot App Key",
+        },
         Endpoint: {
           Title: "Endpoint Address",
           SubTitle: "not supported, configure in .env",

@@ -23,7 +23,7 @@ export const BYTEDANCE_BASE_URL = "https://ark.cn-beijing.volces.com";
 
 export const ALIBABA_BASE_URL = "https://dashscope.aliyuncs.com/api/";
 
-export const TENCENT_BASE_URL = "https://hunyuan.tencentcloudapi.com";
+export const TENCENT_BASE_URL = "https://wss.lke.cloud.tencent.com";
 
 export const MOONSHOT_BASE_URL = "https://api.moonshot.cn";
 export const IFLYTEK_BASE_URL = "https://spark-api-open.xf-yun.com";
@@ -156,6 +156,7 @@ export enum ModelProvider {
   ChatGLM = "ChatGLM",
   DeepSeek = "DeepSeek",
   SiliconFlow = "SiliconFlow",
+  TENCENT = "tencent",
 }
 
 export const Stability = {
@@ -231,6 +232,7 @@ export const Alibaba = {
 
 export const Tencent = {
   ExampleEndpoint: TENCENT_BASE_URL,
+  ChatPath: "/v1/qbot/chat/sse",
 };
 
 export const Moonshot = {
@@ -441,8 +443,8 @@ export const KnowledgeCutOffDate: Record<string, string> = {
   "deepseek-coder": "2024-07",
 };
 
-export const DEFAULT_TTS_ENGINE = "OpenAI-TTS";
-export const DEFAULT_TTS_ENGINES = ["OpenAI-TTS", "Edge-TTS"];
+export const DEFAULT_TTS_ENGINE = "Edge-TTS";
+export const DEFAULT_TTS_ENGINES = ["Edge-TTS"];
 export const DEFAULT_TTS_MODEL = "tts-1";
 export const DEFAULT_TTS_VOICE = "alloy";
 export const DEFAULT_TTS_MODELS = ["tts-1", "tts-1-hd"];
@@ -581,6 +583,7 @@ const alibabaModes = [
 ];
 
 const tencentModels = [
+  "tencent-bot",
   "hunyuan-pro",
   "hunyuan-standard",
   "hunyuan-lite",
@@ -806,6 +809,17 @@ export const DEFAULT_MODELS = [
       sorted: 14,
     },
   })),
+  {
+    name: "tencent-bot",
+    available: true,
+    sorted: seq++,
+    provider: {
+      id: "tencent",
+      providerName: "Tencent",
+      providerType: "tencent",
+      sorted: 0,
+    },
+  },
 ] as const;
 
 export const CHAT_PAGE_SIZE = 15;

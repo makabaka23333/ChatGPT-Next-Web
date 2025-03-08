@@ -110,6 +110,7 @@ const DEFAULT_ACCESS_STATE = {
   tencentUrl: DEFAULT_TENCENT_URL,
   tencentSecretKey: "",
   tencentSecretId: "",
+  tencentBotAppKey: "",
 
   // iflytek
   iflytekUrl: DEFAULT_IFLYTEK_URL,
@@ -194,7 +195,11 @@ export const useAccessStore = createPersistStore(
     },
 
     isValidTencent() {
-      return ensure(get(), ["tencentSecretKey", "tencentSecretId"]);
+      return ensure(get(), [
+        "tencentSecretKey",
+        "tencentSecretId",
+        "tencentBotAppKey",
+      ]);
     },
 
     isValidMoonshot() {
