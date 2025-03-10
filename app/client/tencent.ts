@@ -6,8 +6,14 @@ import {
   getMessageTextContent,
   getMessageTextContentWithoutThinking,
   getTimeoutMSByModel,
+  trimTopic,
 } from "@/app/utils";
-import { useAccessStore, useChatStore, usePluginStore } from "@/app/store";
+import {
+  DEFAULT_TOPIC,
+  useAccessStore,
+  useChatStore,
+  usePluginStore,
+} from "@/app/store";
 import { Tencent } from "@/app/constant";
 import { streamWithThink } from "@/app/utils/chat";
 
@@ -18,21 +24,80 @@ interface RequestPayload {
   bot_app_key: string;
   visitor_biz_id: string;
   system_role: string;
+  streaming_throttle: number;
+}
+
+type messageType = "reply" | "thought";
+
+interface ResponsePayload {
+  type: messageType;
+  payload: {
+    can_feedback: boolean;
+    can_rating: boolean;
+    content: string;
+    docs: string;
+    file_infos: string;
+    from_avatar: string;
+    from_name: string;
+    intent_category: string;
+    is_evil: boolean;
+    is_final: boolean;
+    is_from_self: boolean;
+    is_llm_generated: boolean;
+    knowledge: string;
+    option_cards: string;
+    quote_infos: string;
+    record_id: string;
+    related_record_id: string;
+    reply_method: number;
+    request_id: string;
+    session_id: string;
+    timestamp: number;
+    trace_id: string;
+    procedures: [
+      {
+        debugging: {
+          content: string;
+        };
+      },
+    ];
+  };
 }
 
 export class TencentClient implements LLMApi {
+  private currentResponseText: any = ""; // 添加跟踪变量
+  private thoughtResponseText: any = ""; // 添加跟踪变量
+
   extractMessage(res: any) {
     return res?.output?.choices?.at(0)?.message?.content ?? "";
   }
 
-  joinMessage(res: ChatOptions["messages"], role: MessageRole) {
+  joinQMessage(res: ChatOptions["messages"], role: MessageRole) {
     return res
+      .reverse()
       .filter((m) => m.role === role)
       .map((m) => m.content)
       .join("\n");
   }
 
+  joinAMessage(message: ResponsePayload) {
+    if (message.type === "reply") {
+      let msg = message.payload.content.slice(this.currentResponseText.length);
+      this.currentResponseText = message.payload.content;
+      return msg;
+    } else if (message.type === "thought") {
+      let msg = message.payload.procedures[0].debugging.content.slice(
+        this.thoughtResponseText.length,
+      );
+      this.thoughtResponseText =
+        message.payload.procedures[0].debugging.content;
+      return msg;
+    }
+  }
+
   async chat(options: ChatOptions) {
+    this.currentResponseText = ""; // 重置响应文本
+    this.thoughtResponseText = ""; // 重置响应文本
     const tencentBotAppKey = useAccessStore.getState().tencentBotAppKey;
     const messages: ChatOptions["messages"] = [];
     for (const v of options.messages) {
@@ -44,16 +109,17 @@ export class TencentClient implements LLMApi {
       messages.push({ role: v.role, content });
     }
 
-    const sessionId = useChatStore.getState().currentSession().id;
+    const session = useChatStore.getState().currentSession();
     const shouldStream = !!options.config.stream;
 
     const requestPayload: RequestPayload = {
       request_id: uuidv4(),
-      content: this.joinMessage(messages, "user"),
-      session_id: sessionId,
+      content: JSON.stringify(messages),
+      session_id: session.id,
       bot_app_key: tencentBotAppKey,
-      visitor_biz_id: sessionId,
-      system_role: this.joinMessage(messages, "system"),
+      visitor_biz_id: session.id,
+      system_role: this.joinQMessage(messages, "system"),
+      streaming_throttle: 1,
     };
     console.log("[Request] Tencent payload: ", requestPayload);
 
@@ -95,39 +161,31 @@ export class TencentClient implements LLMApi {
           // parseSSE
           (text: string) => {
             const json = JSON.parse(text);
-            const choices = json.payload as {
-              can_feedback: boolean;
-              can_rating: boolean;
-              content: string;
-              docs: null;
-              file_infos: null;
-              from_avatar: string;
-              from_name: string;
-              intent_category: string;
-              is_evil: boolean;
-              is_final: boolean;
-              is_from_self: boolean;
-              is_llm_generated: boolean;
-              knowledge: null;
-              option_cards: null;
-              quote_infos: null;
-              record_id: string;
-              related_record_id: string;
-              reply_method: number;
-              request_id: string;
-              session_id: string;
-              timestamp: number;
-              trace_id: string;
-            };
+            const choices = {
+              ...json,
+            } as ResponsePayload;
             try {
               if (
-                json.type === "reply" &&
-                !choices.is_from_self &&
-                !choices.is_final
+                !choices.payload.is_from_self &&
+                (json.type === "reply" || json.type === "thought")
               ) {
+                if (choices.payload.from_name) {
+                  useChatStore
+                    .getState()
+                    .updateTargetSession(
+                      session,
+                      (session) =>
+                        (session.topic =
+                          choices.payload.from_name.length > 0
+                            ? trimTopic(choices.payload.from_name)
+                            : DEFAULT_TOPIC),
+                    );
+                }
+                // 只返回增量内容
+                const incrementalContent = this.joinAMessage(choices);
                 return {
-                  isThinking: false,
-                  content: json.payload.content,
+                  isThinking: choices.type === "thought",
+                  content: incrementalContent,
                 };
               } else if (json.type === "error") {
                 console.log(json.error.message);

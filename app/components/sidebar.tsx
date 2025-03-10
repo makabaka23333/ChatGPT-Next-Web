@@ -4,7 +4,7 @@ import styles from "./home.module.scss";
 
 import { IconButton } from "./button";
 import SettingsIcon from "../icons/settings.svg";
-import ChatGptIcon from "../icons/chatgpt.svg";
+import LogoIcon from "../icons/logo.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
 import McpIcon from "../icons/mcp.svg";
@@ -168,7 +168,7 @@ export function SideBarContainer(props: {
 export function SideBarHeader(props: {
   title?: string | React.ReactNode;
   subTitle?: string | React.ReactNode;
-  logo?: React.ReactNode;
+  logo?: string | React.ReactNode;
   children?: React.ReactNode;
   shouldNarrow?: boolean;
 }) {
@@ -187,7 +187,6 @@ export function SideBarHeader(props: {
           </div>
           <div className={styles["sidebar-sub-title"]}>{subTitle}</div>
         </div>
-        <div className={clsx(styles["sidebar-logo"], "no-dark")}>{logo}</div>
       </div>
       {children}
     </Fragment>
@@ -248,7 +247,7 @@ export function SideBar(props: { className?: string }) {
       <SideBarHeader
         title="东吴人寿"
         subTitle="你的工作专属助手"
-        logo={<ChatGptIcon />}
+        logo={LogoIcon.src}
         shouldNarrow={shouldNarrow}
       >
         <div className={styles["sidebar-header-bar"]}>

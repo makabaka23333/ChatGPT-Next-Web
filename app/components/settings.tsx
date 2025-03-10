@@ -1880,16 +1880,18 @@ export function Settings() {
             />
           </List>
         )}
-        <List>
-          <TTSConfigList
-            ttsConfig={config.ttsConfig}
-            updateConfig={(updater) => {
-              const ttsConfig = { ...config.ttsConfig };
-              updater(ttsConfig);
-              config.update((config) => (config.ttsConfig = ttsConfig));
-            }}
-          />
-        </List>
+        {false && (
+          <List>
+            <TTSConfigList
+              ttsConfig={config.ttsConfig}
+              updateConfig={(updater) => {
+                const ttsConfig = { ...config.ttsConfig };
+                updater(ttsConfig);
+                config.update((config) => (config.ttsConfig = ttsConfig));
+              }}
+            />
+          </List>
+        )}
 
         <DangerItems />
       </div>

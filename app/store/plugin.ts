@@ -231,6 +231,7 @@ export const usePluginStore = createPersistStore(
     name: StoreKey.Plugin,
     version: 1,
     onRehydrateStorage(state) {
+      return;
       // Skip store rehydration on server side
       if (typeof window === "undefined") {
         return;
