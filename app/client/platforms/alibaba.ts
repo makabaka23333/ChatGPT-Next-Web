@@ -1,5 +1,5 @@
 "use client";
-import { ApiPath, Alibaba, ALIBABA_BASE_URL } from "@/app/constant";
+import { ApiPath, ALIBABA_BASE_URL } from "@/app/constant";
 import {
   useAccessStore,
   useAppConfig,
@@ -110,8 +110,8 @@ export class QwenApi implements LLMApi {
         visionModel
           ? await preProcessImageContentForAlibabaDashScope(v.content)
           : v.role === "assistant"
-          ? getMessageTextContentWithoutThinking(v)
-          : getMessageTextContent(v)
+            ? getMessageTextContentWithoutThinking(v)
+            : getMessageTextContent(v)
       ) as any;
 
       messages.push({ role: v.role, content });
@@ -141,7 +141,7 @@ export class QwenApi implements LLMApi {
         "X-DashScope-SSE": shouldStream ? "enable" : "disable",
       };
 
-      const chatPath = this.path(Alibaba.ChatPath(modelConfig.model));
+      const chatPath = this.path("");
       const chatPayload = {
         method: "POST",
         body: JSON.stringify(requestPayload),
@@ -274,4 +274,3 @@ export class QwenApi implements LLMApi {
     return [];
   }
 }
-export { Alibaba };

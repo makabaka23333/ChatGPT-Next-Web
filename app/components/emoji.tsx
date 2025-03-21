@@ -4,10 +4,11 @@ import EmojiPicker, {
   Theme as EmojiTheme,
 } from "emoji-picker-react";
 
-import { ModelType } from "../store";
+import { ModelType, useAppConfig, User } from "../store";
 
-import BotIconDefault from "../icons/llm-icons/default.svg";
-import BotIconOpenAI from "../icons/llm-icons/openai.svg";
+import WoManIcon from "../icons/user-w.svg";
+import ManIcon from "../icons/user-m.svg";
+import LogoIcon from "../icons/logo.svg";
 import BotIconGemini from "../icons/llm-icons/gemini.svg";
 import BotIconGemma from "../icons/llm-icons/gemma.svg";
 import BotIconClaude from "../icons/llm-icons/claude.svg";
@@ -46,7 +47,7 @@ export function AvatarPicker(props: {
 }
 
 export function Avatar(props: { model?: ModelType; avatar?: string }) {
-  let LlmIcon = BotIconDefault;
+  let LlmIcon = LogoIcon;
 
   if (props.model) {
     const modelName = props.model.toLowerCase();
@@ -59,7 +60,7 @@ export function Avatar(props: { model?: ModelType; avatar?: string }) {
       modelName.startsWith("o1") ||
       modelName.startsWith("o3")
     ) {
-      LlmIcon = BotIconOpenAI;
+      LlmIcon = LogoIcon;
     } else if (modelName.startsWith("gemini")) {
       LlmIcon = BotIconGemini;
     } else if (modelName.startsWith("gemma")) {
@@ -68,7 +69,10 @@ export function Avatar(props: { model?: ModelType; avatar?: string }) {
       LlmIcon = BotIconClaude;
     } else if (modelName.includes("llama")) {
       LlmIcon = BotIconMeta;
-    } else if (modelName.startsWith("mixtral") || modelName.startsWith("codestral")) {
+    } else if (
+      modelName.startsWith("mixtral") ||
+      modelName.startsWith("codestral")
+    ) {
       LlmIcon = BotIconMistral;
     } else if (modelName.includes("deepseek")) {
       LlmIcon = BotIconDeepseek;
@@ -99,9 +103,15 @@ export function Avatar(props: { model?: ModelType; avatar?: string }) {
     );
   }
 
+  return <div className="user-avatar">{props.avatar && UserAvatar()}</div>;
+}
+
+export function UserAvatar() {
+  const config = useAppConfig();
+  let UserIcon = config.avatar === User.Woman ? WoManIcon : ManIcon;
   return (
-    <div className="user-avatar">
-      {props.avatar && <EmojiAvatar avatar={props.avatar} />}
+    <div className="no-dark">
+      <UserIcon className="user-avatar" width={30} height={30} />
     </div>
   );
 }

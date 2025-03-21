@@ -375,19 +375,10 @@ const da: PartialLocaleType = {
         },
       },
       Tencent: {
-        ApiKey: {
+        BotAppKey: {
           Title: "Tencent-nøgle",
           SubTitle: "Din egen nøgle fra Tencent",
           Placeholder: "Tencent API Key",
-        },
-        SecretKey: {
-          Title: "Tencent hemmelig nøgle",
-          SubTitle: "Din egen hemmelige nøgle fra Tencent",
-          Placeholder: "Tencent Secret Key",
-        },
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "Kan ikke ændres, se .env",
         },
       },
       ByteDance: {
@@ -410,111 +401,6 @@ const da: PartialLocaleType = {
         Endpoint: {
           Title: "Adresse",
           SubTitle: "F.eks.: ",
-        },
-      },
-      Moonshot: {
-        ApiKey: {
-          Title: "Moonshot-nøgle",
-          SubTitle: "Din egen Moonshot-nøgle",
-          Placeholder: "Moonshot API Key",
-        },
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "F.eks.: ",
-        },
-      },
-      DeepSeek: {
-        ApiKey: {
-          Title: "DeepSeek-nøgle",
-          SubTitle: "Din egen DeepSeek-nøgle",
-          Placeholder: "DeepSeek API Key",
-        },
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "F.eks.: ",
-        },
-      },
-      XAI: {
-        ApiKey: {
-          Title: "XAI-nøgle",
-          SubTitle: "Din egen XAI-nøgle",
-          Placeholder: "XAI API Key",
-        },
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "F.eks.: ",
-        },
-      },
-      ChatGLM: {
-        ApiKey: {
-          Title: "ChatGLM-nøgle",
-          SubTitle: "Din egen ChatGLM-nøgle",
-          Placeholder: "ChatGLM API Key",
-        },
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "F.eks.: ",
-        },
-      },
-      SiliconFlow: {
-        ApiKey: {
-          Title: "SiliconFlow-nøgle",
-          SubTitle: "Din egen SiliconFlow-nøgle",
-          Placeholder: "SiliconFlow API Key",
-        },
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "F.eks.: ",
-        },
-      },
-      Stability: {
-        ApiKey: {
-          Title: "Stability-nøgle",
-          SubTitle: "Din egen Stability-nøgle",
-          Placeholder: "Stability API Key",
-        },
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "F.eks.: ",
-        },
-      },
-      Iflytek: {
-        ApiKey: {
-          Title: "Iflytek API Key",
-          SubTitle: "Nøgle fra Iflytek",
-          Placeholder: "Iflytek API Key",
-        },
-        ApiSecret: {
-          Title: "Iflytek hemmelig nøgle",
-          SubTitle: "Hentet fra Iflytek",
-          Placeholder: "Iflytek API Secret",
-        },
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "F.eks.: ",
-        },
-      },
-      CustomModel: {
-        Title: "Egne modelnavne",
-        SubTitle: "Skriv komma-adskilte navne",
-      },
-      Google: {
-        ApiKey: {
-          Title: "Google-nøgle",
-          SubTitle: "Få din nøgle hos Google AI",
-          Placeholder: "Google AI API Key",
-        },
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "F.eks.: ",
-        },
-        ApiVersion: {
-          Title: "API-version (til gemini-pro)",
-          SubTitle: "Vælg en bestemt version",
-        },
-        GoogleSafetySettings: {
-          Title: "Google sikkerhedsindstillinger",
-          SubTitle: "Vælg et niveau for indholdskontrol",
         },
       },
     },

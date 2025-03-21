@@ -16,6 +16,7 @@ import {
   copyToClipboard,
   downloadAs,
   getMessageImages,
+  getMessageTextContent,
   useMobileScreen,
 } from "../utils";
 
@@ -37,7 +38,6 @@ import { prettyObject } from "../utils/format";
 import { EXPORT_MESSAGE_CLASS_NAME } from "../constant";
 import { getClientConfig } from "../config/client";
 import { type ClientApi, getClientApi } from "../client/api";
-import { getMessageTextContent } from "../utils";
 import { MaskAvatar } from "./mask";
 import clsx from "clsx";
 
@@ -180,6 +180,7 @@ export function MessageExporter() {
     session.mask.context,
     selection,
   ]);
+
   function preview() {
     if (exportConfig.format === "text") {
       return (
@@ -195,6 +196,7 @@ export function MessageExporter() {
       );
     }
   }
+
   return (
     <>
       <Steps
@@ -277,7 +279,7 @@ export function RenderExport(props: {
       return {
         id: i.toString(),
         role: role as any,
-        content: role === "user" ? v.textContent ?? "" : v.innerHTML,
+        content: role === "user" ? (v.textContent ?? "") : v.innerHTML,
         date: "",
       };
     });

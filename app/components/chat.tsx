@@ -67,14 +67,14 @@ import {
   copyToClipboard,
   getMessageImages,
   getMessageTextContent,
+  getModelSizes,
   isDalle3,
   isVisionModel,
   safeLocalStorage,
-  getModelSizes,
-  supportsCustomSize,
-  useMobileScreen,
   selectOrCopy,
   showPlugins,
+  supportsCustomSize,
+  useMobileScreen,
 } from "../utils";
 
 import { uploadImage as uploadImageRemote } from "@/app/utils/chat";
@@ -528,7 +528,7 @@ export function ChatActions(props: {
   // switch model
   const currentModel = session.mask.modelConfig.model;
   const currentProviderName =
-    session.mask.modelConfig?.providerName || ServiceProvider.OpenAI;
+    session.mask.modelConfig?.providerName || ServiceProvider.Tencent;
   const allModels = useAllModels();
   const models = useMemo(() => {
     const filteredModels = allModels.filter((m) => m.available);
@@ -990,7 +990,7 @@ export function ShortcutKeyModal(props: { onClose: () => void }) {
   );
 }
 
-function _Chat() {
+function Chatfun() {
   type RenderMessage = ChatMessage & { preview?: boolean };
 
   const chatStore = useChatStore();
@@ -1297,7 +1297,7 @@ function _Chat() {
       setSpeechStatus(false);
     } else {
       var api: ClientApi;
-      api = new ClientApi(ModelProvider.GPT);
+      api = new ClientApi(ModelProvider.TENCENT);
       const config = useAppConfig.getState();
       setSpeechLoading(true);
       ttsPlayer.init();
@@ -2171,5 +2171,5 @@ function _Chat() {
 export function Chat() {
   const chatStore = useChatStore();
   const session = chatStore.currentSession();
-  return <_Chat key={session.id}></_Chat>;
+  return <Chatfun key={session.id}></Chatfun>;
 }

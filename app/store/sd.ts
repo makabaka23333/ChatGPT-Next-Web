@@ -1,9 +1,4 @@
-import {
-  Stability,
-  StoreKey,
-  ACCESS_CODE_PREFIX,
-  ApiPath,
-} from "@/app/constant";
+import { StoreKey, ACCESS_CODE_PREFIX, ApiPath } from "@/app/constant";
 import { getBearerToken } from "@/app/client/api";
 import { createPersistStore } from "@/app/utils/store";
 import { nanoid } from "nanoid";
@@ -79,7 +74,7 @@ export const useSdStore = createPersistStore<
           Accept: "application/json",
           Authorization: bearerToken,
         };
-        const path = `${prefix}/${Stability.GeneratePath}/${data.model}`;
+        const path = ``;
         const formData = new FormData();
         for (let paramsKey in data.params) {
           formData.append(paramsKey, data.params[paramsKey]);

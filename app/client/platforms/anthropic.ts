@@ -1,4 +1,4 @@
-import { Anthropic, ApiPath } from "@/app/constant";
+import { ApiPath } from "@/app/constant";
 import { ChatOptions, getHeaders, LLMApi, SpeechOptions } from "../api";
 import {
   useAccessStore,
@@ -191,7 +191,7 @@ export class ClaudeApi implements LLMApi {
       top_k: 5,
     };
 
-    const path = this.path(Anthropic.ChatPath);
+    const path = "";
 
     const controller = new AbortController();
     options.onController?.(controller);

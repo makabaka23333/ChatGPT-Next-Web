@@ -51,7 +51,7 @@ export function RealtimeChat({
   const temperature = config.realtimeConfig.temperature;
   const apiKey = config.realtimeConfig.apiKey;
   const model = config.realtimeConfig.model;
-  const azure = config.realtimeConfig.provider === "Azure";
+  const azure = false;
   const azureEndpoint = config.realtimeConfig.azure.endpoint;
   const azureDeployment = config.realtimeConfig.azure.deployment;
   const voice = config.realtimeConfig.voice;

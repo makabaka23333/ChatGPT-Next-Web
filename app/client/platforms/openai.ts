@@ -2,12 +2,9 @@
 // azure and openai, using same models. so using same LLMApi.
 import {
   ApiPath,
-  OPENAI_BASE_URL,
   DEFAULT_MODELS,
-  OpenaiPath,
-  Azure,
+  OPENAI_BASE_URL,
   REQUEST_TIMEOUT_MS,
-  ServiceProvider,
 } from "@/app/constant";
 import {
   ChatMessageTool,
@@ -16,15 +13,14 @@ import {
   useChatStore,
   usePluginStore,
 } from "@/app/store";
-import { collectModelsWithDefaultModel } from "@/app/utils/model";
 import {
-  preProcessImageContent,
-  uploadImage,
   base64Image2Blob,
+  preProcessImageContent,
   streamWithThink,
+  uploadImage,
 } from "@/app/utils/chat";
 import { cloudflareAIGatewayUrl } from "@/app/utils/cloudflare";
-import { ModelSize, DalleQuality, DalleStyle } from "@/app/typing";
+import { DalleQuality, DalleStyle, ModelSize } from "@/app/typing";
 
 import {
   ChatOptions,
@@ -39,9 +35,9 @@ import Locale from "../../locales";
 import { getClientConfig } from "@/app/config/client";
 import {
   getMessageTextContent,
-  isVisionModel,
-  isDalle3 as _isDalle3,
   getTimeoutMSByModel,
+  isDalle3 as _isDalle3,
+  isVisionModel,
 } from "@/app/utils";
 import { fetch } from "@/app/utils/stream";
 
@@ -160,7 +156,7 @@ export class ChatGPTApi implements LLMApi {
     options.onController?.(controller);
 
     try {
-      const speechPath = this.path(OpenaiPath.SpeechPath);
+      const speechPath = "https://api.openai.com/v1/speech";
       const speechPayload = {
         method: "POST",
         body: JSON.stringify(requestPayload),
@@ -256,36 +252,6 @@ export class ChatGPTApi implements LLMApi {
 
     try {
       let chatPath = "";
-      if (modelConfig.providerName === ServiceProvider.Azure) {
-        // find model, and get displayName as deployName
-        const { models: configModels, customModels: configCustomModels } =
-          useAppConfig.getState();
-        const {
-          defaultModel,
-          customModels: accessCustomModels,
-          useCustomConfig,
-        } = useAccessStore.getState();
-        const models = collectModelsWithDefaultModel(
-          configModels,
-          [configCustomModels, accessCustomModels].join(","),
-          defaultModel,
-        );
-        const model = models.find(
-          (model) =>
-            model.name === modelConfig.model &&
-            model?.provider?.providerName === ServiceProvider.Azure,
-        );
-        chatPath = this.path(
-          (isDalle3 ? Azure.ImagePath : Azure.ChatPath)(
-            (model?.displayName ?? model?.name) as string,
-            useCustomConfig ? useAccessStore.getState().azureApiVersion : "",
-          ),
-        );
-      } else {
-        chatPath = this.path(
-          isDalle3 ? OpenaiPath.ImagePath : OpenaiPath.ChatPath,
-        );
-      }
       if (shouldStream) {
         let index = -1;
         const [tools, funcs] = usePluginStore
@@ -411,6 +377,7 @@ export class ChatGPTApi implements LLMApi {
       options.onError?.(e as Error);
     }
   }
+
   async usage() {
     const formatDate = (d: Date) =>
       `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d
@@ -424,16 +391,11 @@ export class ChatGPTApi implements LLMApi {
     const endDate = formatDate(new Date(Date.now() + ONE_DAY));
 
     const [used, subs] = await Promise.all([
-      fetch(
-        this.path(
-          `${OpenaiPath.UsagePath}?start_date=${startDate}&end_date=${endDate}`,
-        ),
-        {
-          method: "GET",
-          headers: getHeaders(),
-        },
-      ),
-      fetch(this.path(OpenaiPath.SubsPath), {
+      fetch(this.path(`${""}?start_date=${startDate}&end_date=${endDate}`), {
+        method: "GET",
+        headers: getHeaders(),
+      }),
+      fetch(this.path(""), {
         method: "GET",
         headers: getHeaders(),
       }),
@@ -478,40 +440,8 @@ export class ChatGPTApi implements LLMApi {
   }
 
   async models(): Promise<LLMModel[]> {
-    if (this.disableListModels) {
-      return DEFAULT_MODELS.slice();
-    }
-
-    const res = await fetch(this.path(OpenaiPath.ListModelPath), {
-      method: "GET",
-      headers: {
-        ...getHeaders(),
-      },
-    });
-
-    const resJson = (await res.json()) as OpenAIListModelResponse;
-    const chatModels = resJson.data?.filter(
-      (m) => m.id.startsWith("gpt-") || m.id.startsWith("chatgpt-"),
-    );
-    console.log("[Models]", chatModels);
-
-    if (!chatModels) {
-      return [];
-    }
-
-    //由于目前 OpenAI 的 disableListModels 默认为 true，所以当前实际不会运行到这场
-    let seq = 1000; //同 Constant.ts 中的排序保持一致
-    return chatModels.map((m) => ({
-      name: m.id,
-      available: true,
-      sorted: seq++,
-      provider: {
-        id: "openai",
-        providerName: "OpenAI",
-        providerType: "openai",
-        sorted: 1,
-      },
-    }));
+    return DEFAULT_MODELS.slice();
   }
 }
-export { OpenaiPath };
+
+export {};

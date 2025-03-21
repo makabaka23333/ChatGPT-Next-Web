@@ -315,241 +315,51 @@ const en: LocaleType = {
     },
     Access: {
       SaasStart: {
-        Title: "Use NextChat AI",
-        Label: " (Most Cost-Effective Option)",
+        Title: "使用 NextChat AI",
+        Label: "（性价比最高的方案）",
         SubTitle:
-          "Maintained by NextChat, zero setup needed, unlock OpenAI o1, GPT-4o," +
-          " Claude-3.5 and more",
-        ChatNow: "Start Now",
+          "由 NextChat 官方维护, 零配置开箱即用，支持 OpenAI o1, GPT-4o, Claude-3.5 等最新大模型",
+        ChatNow: "立刻对话",
       },
       AccessCode: {
-        Title: "Access Code",
-        SubTitle: "Access control Enabled",
-        Placeholder: "Enter Code",
+        Title: "访问密码",
+        SubTitle: "管理员已开启加密访问",
+        Placeholder: "请输入访问密码",
       },
       CustomEndpoint: {
-        Title: "Custom Endpoint",
-        SubTitle: "Use custom Azure or OpenAI service",
+        Title: "自定义接口",
+        SubTitle: "是否使用自定义 Azure 或 OpenAI 服务",
       },
       Provider: {
-        Title: "Model Provider",
-        SubTitle: "Select Azure or OpenAI",
-      },
-      OpenAI: {
-        ApiKey: {
-          Title: "OpenAI API Key",
-          SubTitle: "User custom OpenAI Api Key",
-          Placeholder: "sk-xxx",
-        },
-
-        Endpoint: {
-          Title: "OpenAI Endpoint",
-          SubTitle: "Must start with http(s):// or use /api/openai as default",
-        },
-      },
-      Azure: {
-        ApiKey: {
-          Title: "Azure Api Key",
-          SubTitle: "Check your api key from Azure console",
-          Placeholder: "Azure Api Key",
-        },
-
-        Endpoint: {
-          Title: "Azure Endpoint",
-          SubTitle: "Example: ",
-        },
-
-        ApiVerion: {
-          Title: "Azure Api Version",
-          SubTitle: "Check your api version from azure console",
-        },
-      },
-      Anthropic: {
-        ApiKey: {
-          Title: "Anthropic API Key",
-          SubTitle:
-            "Use a custom Anthropic Key to bypass password access restrictions",
-          Placeholder: "Anthropic API Key",
-        },
-
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-
-        ApiVerion: {
-          Title: "API Version (claude api version)",
-          SubTitle: "Select and input a specific API version",
-        },
-      },
-      Baidu: {
-        ApiKey: {
-          Title: "Baidu API Key",
-          SubTitle: "Use a custom Baidu API Key",
-          Placeholder: "Baidu API Key",
-        },
-        SecretKey: {
-          Title: "Baidu Secret Key",
-          SubTitle: "Use a custom Baidu Secret Key",
-          Placeholder: "Baidu Secret Key",
-        },
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "not supported, configure in .env",
-        },
+        Title: "模型服务商",
+        SubTitle: "切换不同的服务商",
       },
       Tencent: {
-        ApiKey: {
-          Title: "Tencent API Key",
-          SubTitle: "Use a custom Tencent API Key",
-          Placeholder: "Tencent API Key",
-        },
-        SecretKey: {
-          Title: "Tencent Secret Key",
-          SubTitle: "Use a custom Tencent Secret Key",
-          Placeholder: "Tencent Secret Key",
-        },
         BotAppKey: {
           Title: "Bot App Key",
-          SubTitle: "Use a custom Tencent Bot App Key",
+          SubTitle: "使用自定义腾讯云Bot App Key",
           Placeholder: "Tencent Bot App Key",
         },
         Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "not supported, configure in .env",
+          Title: "接口地址",
+          SubTitle: "不支持自定义前往.env配置",
         },
       },
-      ByteDance: {
-        ApiKey: {
-          Title: "ByteDance API Key",
-          SubTitle: "Use a custom ByteDance API Key",
-          Placeholder: "ByteDance API Key",
-        },
+      OpenAI: {},
+      Azure: {},
+      Anthropic: {},
+      Google: {},
+      ByteDance: {},
+      Baidu: {},
+      CustomModel: {},
+      Alibaba: {},
+      SoochowLife: {
         Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-      },
-      Alibaba: {
-        ApiKey: {
-          Title: "Alibaba API Key",
-          SubTitle: "Use a custom Alibaba Cloud API Key",
-          Placeholder: "Alibaba Cloud API Key",
-        },
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-      },
-      Moonshot: {
-        ApiKey: {
-          Title: "Moonshot API Key",
-          SubTitle: "Use a custom Moonshot API Key",
-          Placeholder: "Moonshot API Key",
-        },
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-      },
-      DeepSeek: {
-        ApiKey: {
-          Title: "DeepSeek API Key",
-          SubTitle: "Use a custom DeepSeek API Key",
-          Placeholder: "DeepSeek API Key",
-        },
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-      },
-      XAI: {
-        ApiKey: {
-          Title: "XAI API Key",
-          SubTitle: "Use a custom XAI API Key",
-          Placeholder: "XAI API Key",
-        },
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-      },
-      ChatGLM: {
-        ApiKey: {
-          Title: "ChatGLM API Key",
-          SubTitle: "Use a custom ChatGLM API Key",
-          Placeholder: "ChatGLM API Key",
-        },
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-      },
-      SiliconFlow: {
-        ApiKey: {
-          Title: "SiliconFlow API Key",
-          SubTitle: "Use a custom SiliconFlow API Key",
-          Placeholder: "SiliconFlow API Key",
-        },
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-      },
-      Stability: {
-        ApiKey: {
-          Title: "Stability API Key",
-          SubTitle: "Use a custom Stability API Key",
-          Placeholder: "Stability API Key",
-        },
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-      },
-      Iflytek: {
-        ApiKey: {
-          Title: "Iflytek API Key",
-          SubTitle: "Use a Iflytek API Key",
-          Placeholder: "Iflytek API Key",
-        },
-        ApiSecret: {
-          Title: "Iflytek API Secret",
-          SubTitle: "Use a Iflytek API Secret",
-          Placeholder: "Iflytek API Secret",
-        },
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-      },
-      CustomModel: {
-        Title: "Custom Models",
-        SubTitle: "Custom model options, seperated by comma",
-      },
-      Google: {
-        ApiKey: {
-          Title: "API Key",
-          SubTitle: "Obtain your API Key from Google AI",
-          Placeholder: "Google AI API Key",
-        },
-
-        Endpoint: {
-          Title: "Endpoint Address",
-          SubTitle: "Example: ",
-        },
-
-        ApiVersion: {
-          Title: "API Version (specific to gemini-pro)",
-          SubTitle: "Select a specific API version",
-        },
-        GoogleSafetySettings: {
-          Title: "Google Safety Settings",
-          SubTitle: "Select a safety filtering level",
+          Title: "接口地址",
+          SubTitle: "除默认地址外，必须包含 http(s)://",
         },
       },
     },
-
     Model: "Model",
     CompressModel: {
       Title: "Summary Model",

@@ -1,8 +1,7 @@
 import { getServerSideConfig } from "@/app/config/server";
-import { TENCENT_BASE_URL, ModelProvider } from "@/app/constant";
+import { TENCENT_BASE_URL } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/app/api/auth";
 import { getHeader } from "@/app/utils/tencent";
 
 const serverConfig = getServerSideConfig();
@@ -15,13 +14,6 @@ async function handle(
 
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 });
-  }
-
-  const authResult = auth(req, ModelProvider.Hunyuan);
-  if (authResult.error) {
-    return NextResponse.json(authResult, {
-      status: 401,
-    });
   }
 
   try {

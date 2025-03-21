@@ -218,10 +218,8 @@ export class TencentClient implements LLMApi {
       } else {
         const res = await fetch(chatPath, chatPayload);
         clearTimeout(requestTimeoutId);
-
-        const resJson = await res.json();
-        const message = this.extractMessage(resJson);
-        options.onFinish(message, res);
+        console.log("res", res);
+        options.onFinish("", res);
       }
     } catch (e) {
       console.log("[Request] failed to make a chat request", e);
@@ -230,19 +228,7 @@ export class TencentClient implements LLMApi {
   }
 
   public async models(): Promise<LLMModel[]> {
-    return [
-      {
-        name: "tencent-bot",
-        available: true,
-        provider: {
-          id: "tencent",
-          providerName: "Tencent",
-          providerType: "tencent",
-          sorted: 0,
-        },
-        sorted: 1000,
-      },
-    ];
+    return [];
   }
 
   public async usage(): Promise<any> {

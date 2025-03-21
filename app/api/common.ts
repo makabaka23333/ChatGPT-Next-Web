@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSideConfig } from "../config/server";
-import { OPENAI_BASE_URL, ServiceProvider } from "../constant";
+import { OPENAI_BASE_URL } from "../constant";
 import { cloudflareAIGatewayUrl } from "../utils/cloudflare";
 import { getModelProvider, isModelNotavailableInServer } from "../utils/model";
 
@@ -122,8 +122,8 @@ export async function requestOpenai(req: NextRequest) {
           serverConfig.customModels,
           jsonBody?.model as string,
           [
-            ServiceProvider.OpenAI,
-            ServiceProvider.Azure,
+            "",
+            "",
             jsonBody?.model as string, // support provider-unspecified model
           ],
         )
